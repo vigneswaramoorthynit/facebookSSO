@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+           
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.app.facebookloginaddon" />
+	
+	
+	<bean id="facebookloginaddonCoreDataImportedEventListener" parent="abstractCoreDataImportedEventListener">
+		<property name="supportedChannels">
+			<list value-type="de.hybris.platform.commerceservices.enums.SiteChannel">
+				<value>B2C</value>
+				<!--
+								<value>B2B</value>
+				-->
+			</list>
+		</property>
+		<property name="addonExtensionMetadata">
+			<bean class="de.hybris.platform.addonsupport.data.AddonExtensionMetadata">
+				<property name="suffixChannel" value="false"/>
+				<property name="baseExtensionName" value="facebookloginaddon"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="facebookloginaddonSampleDataEventListener" parent="abstractGenericAddOnSampleDataEventListener"  >
+		<property name="extensionName" value="facebookloginaddon" />
+	</bean>
+
+<bean id="connectionFactoryRegistry"
+		class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
+		<property name="connectionFactories">
+			<list>
+				<bean id="facebookConnectionFactory"
+					class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
+					<constructor-arg name="appId"
+						value="#{configurationService.configuration.getProperty('spring.social.facebook.appId')}" />
+					<constructor-arg name="appSecret"
+						value="#{configurationService.configuration.getProperty('spring.social.facebook.appSecret')}" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultSocialNetworkLoginStrategy" alias="socialNetworkLoginStrategy" />
+	<bean id="defaultSocialNetworkLoginStrategy"
+		class="com.app.facebookloginaddon.strategy.impl.DefaultSocialNetworkLoginStrategy">
+	</bean>
+
+	<bean id="socialNetworkLoginProvider"
+		class="com.app.facebookloginaddon.strategy.impl.DefaultSocialNetworkLoginProvider"
+		parent="coreAuthenticationProvider">
+	</bean>
+
+	<bean id="coreAuthenticationProvider"
+		class="de.hybris.platform.spring.security.CoreAuthenticationProvider">
+		<property name="preAuthenticationChecks" ref="corePreAuthenticationChecks" />
+		<property name="userDetailsService" ref="coreUserDetailsService" />
+	</bean>
+	
+	    <bean id="corePreAuthenticationChecks" class="de.hybris.platform.spring.security.RejectUserPreAuthenticationChecks">
+    </bean>
+
+    <bean id="coreUserDetailsService" class="de.hybris.platform.spring.security.CoreUserDetailsService" />
+
+</beans>

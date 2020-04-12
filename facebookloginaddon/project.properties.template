@@ -1,0 +1,15 @@
+
+# you can put key/value pairs here.
+# Use Config.getParameter(..) to retrieve the values during runtime.
+
+facebookloginaddon.key=value
+
+# Specifies the location of the spring context file added automatically to the global platform application context.
+facebookloginaddon.application-context=facebookloginaddon-spring.xml
+
+yacceleratorstorefront.additionalWebSpringConfigs.facebookloginaddon=classpath:/facebookloginaddon/web/spring/facebookloginaddon-web-spring.xml
+
+
+
+facebookloginaddon.javascript.paths.responsive=/responsive/common/js/facebookloginaddon.js
+facebookloginaddon.css.paths.responsive=/responsive/common/css/facebookloginaddon.css

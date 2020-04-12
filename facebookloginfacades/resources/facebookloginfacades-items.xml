@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="items.xsd">
+
+
+	<enumtypes>
+
+		<enumtype code="ProviderType" autocreate="true" generate="true">
+			<description>Provider Type Enumeration</description>
+			<value code="FACEBOOK" />
+		</enumtype>
+
+	</enumtypes>
+	<itemtypes>
+		<itemtype code="Customer" generate="false" autocreate="false">
+			<attributes>
+				<attribute type="java.lang.String" qualifier="facebookUserId">
+					<description> Facebook Email Id </description>
+					<modifiers />
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+			<indexes>
+					<index unique="true" name="CustomerFacebookUserId">
+		 				<key attribute="facebookUserId"/>
+					</index>
+				</indexes>
+		</itemtype>
+		
+		<itemtype code="BaseStore" autocreate="false" generate="false">
+				<description>Extending BaseStore type with additional attributes.</description>
+				<attributes>
+					<attribute type="java.lang.Boolean" qualifier="facebookLoginEnabled">
+						<description>Facebook SNS login/Registration is enabled</description>
+						<persistence type="property"/>
+						<modifiers  />
+						<defaultvalue>Boolean.valueOf(true)</defaultvalue>
+					</attribute>
+				</attributes>
+			</itemtype>
+	</itemtypes>
+	
+</items>

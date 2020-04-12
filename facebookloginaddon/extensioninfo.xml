@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+
+	<extension abstractclassprefix="Generated" classprefix="Facebookloginaddon" description="facebookloginaddon extension" managername="FacebookloginaddonManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="facebookloginaddon">
+
+		<!-- you should add all required extensions to this list, except platform extensions which are automatically required -->         
+		<requires-extension name="addonsupport"/>
+		<requires-extension name="facebookloginfacades"/>
+
+		<coremodule generated="true" manager="com.app.facebookloginaddon.jalo.FacebookloginaddonManager" packageroot="com.app.facebookloginaddon"/>
+
+		
+		<meta key="classpathgen" value="false"/>
+
+	</extension>
+
+</extensioninfo>

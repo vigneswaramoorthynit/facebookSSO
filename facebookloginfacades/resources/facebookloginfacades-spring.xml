@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	    <bean id="facebookloginfacadesSystemSetup" class="com.app.facebookloginfacades.setup.FacebookloginfacadesSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="facebookloginfacadesService"/>
+    </bean>
+    
+    
+	<bean id="facebookOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
+	</bean>
+		
+
+    <bean id="facebookloginfacadesService" class="com.app.facebookloginfacades.service.impl.DefaultFacebookloginfacadesService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+			
+	<bean id="facebookDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.app.facebookloginfacades.data.SocialCustomerData" />
+		<property name="populators">
+			<list>
+				<ref bean="facebookRegistrationFormPopulator" />
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultFacebookRegistrationFacade" alias="facebookRegistrationFacade" />
+	<bean id="defaultFacebookRegistrationFacade"
+		class="com.app.facebookloginfacades.impl.DefaultFacebookRegistrationFacade"></bean>
+
+	<alias name="defaultFacebookRegistrationService" alias="facebookRegistrationService" />
+	<bean id="defaultFacebookRegistrationService"
+		class="com.app.facebookloginfacades.service.impl.DefaultFacebookRegistrationService"></bean>
+
+
+	<alias name="defaultFacebookLoginFacade" alias="facebookLoginFacade" />
+	<bean id="defaultFacebookLoginFacade"
+		class="com.app.facebookloginfacades.impl.DefaultFacebookLoginFacade"></bean>
+
+	<alias name="defaultFacebookLoginService" alias="facebookLoginService" />
+	<bean id="defaultFacebookLoginService"
+		class="com.app.facebookloginfacades.service.impl.DefaultFacebookLoginService"></bean>
+
+	<bean id="facebookRegistrationFormPopulator"
+		class="com.app.facebookloginfacades.populator.FacebookRegistrationFormPopulator">
+	</bean>
+
+	<bean id="facebookConnectionFactory"
+		class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
+		<constructor-arg name="appId"
+			value="#{configurationService.configuration.getProperty('spring.social.facebook.appId')}" />
+		<constructor-arg name="appSecret"
+			value="#{configurationService.configuration.getProperty('spring.social.facebook.appSecret')}" />
+	</bean>
+		<alias name="defaultSocialNetworkDao" alias="socialNetworkDao" />
+	<bean id="defaultSocialNetworkDao"
+		class="com.app.facebookloginfacades.dao.impl.DefaultSocialNetworkDao"></bean>
+		
+	<bean id="facebookLoginUtil"
+		class="com.app.facebookloginfacades.util.FacebookLoginUtil"></bean>
+		
+		 <alias name="defaultSocialNetworkCustomerFacade" alias="customerFacade"/>
+    <bean id="defaultSocialNetworkCustomerFacade" class="com.app.facebookloginfacades.impl.DefaultSocialNetworkCustomerFacade" parent="defaultCustomerFacade" >
+    </bean>
+</beans>
